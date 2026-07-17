@@ -4,3 +4,37 @@
     align-items: center;
     gap: 20px;
 }
+
+.noMatches {
+ margin-top: 30px;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: #666;
+
+    text-align: center;
+}
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.box h2 {
+    font-size: 36px;
+
+    color: #2d3748;
+
+    font-weight: 700;
+ margin:0;
+    letter-spacing: 1px;
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}

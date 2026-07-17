@@ -2,8 +2,6 @@
     display:flex;
    align-items: center;
     gap:40px;
-     padding: 20px;
-
     border-bottom: 1px solid #ddd;
 }
 

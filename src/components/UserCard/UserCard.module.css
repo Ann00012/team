@@ -18,6 +18,12 @@
     background: white;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.userCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.2);
 }
 
 .avatar {
@@ -44,4 +50,45 @@
 
 .info span {
   color: #777;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.link {
+    padding: 8px 14px;
+    background-color: #1976d2;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.link:hover {
+    background-color: #1565c0;
+}
+
+.deleteBtn {
+    padding: 8px 14px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background-color: #d32f2f;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.deleteBtn:hover {
+    background-color: #b71c1c;
+    cursor: pointer;
 }
