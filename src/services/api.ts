@@ -1,8 +1,44 @@
 import axios from "axios";
 import { User } from './types';
 
+interface Post { 
+    id: number,
+    userId: number,
+    title: string,
+    body: string,
+    tags: string[],
+    reactions: Reactions,
+    views:number
+}
+
+interface Reactions { 
+    likes: number,
+    dislikes:number
+}
+interface UserPosts { 
+    posts: Post[],
+     total: number;
+    skip: number;
+    limit: number;
+    
+}
+export interface Todo {
+  id: number;
+  todo: string;
+  completed: boolean;
+  userId: number;
+}
+
+
 interface Response {
     users: User[];
+    total: number;
+    skip: number;
+    limit: number;
+}
+
+interface UserTodos { 
+    todos: Todo[],
     total: number;
     skip: number;
     limit: number;
@@ -32,3 +68,19 @@ export const fetchUsers = async ({
 
   return data;
 };
+
+
+export const fetchSingleUser = async (id: string): Promise<User> => {
+    const res = await axios.get<User>(`https://dummyjson.com/users/${id}`);
+    return res.data
+};
+
+export const fetchUserTodos = async (id: string): Promise<UserTodos> => { 
+    const res = await axios.get<UserTodos>(`https://dummyjson.com/users/${id}/todos`);
+    return res.data;
+};
+
+export const fetchUserPosts = async (id: string): Promise<UserPosts> => {
+    const res = await axios.get<UserPosts>(`https://dummyjson.com/users/${id}/posts`);
+    return res.data;
+}

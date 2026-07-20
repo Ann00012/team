@@ -4,5 +4,8 @@ export type User = {
     lastName:string
     username: string,
     email: string,
-    image:string
+    image: string,
+    age: number,
+    role: string,
+    phone:string
 };
