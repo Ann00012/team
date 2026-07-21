@@ -7,5 +7,6 @@ export type User = {
     image: string,
     age: number,
     role: string,
-    phone:string
+    phone: string,
+    isDeleted:boolean
 };

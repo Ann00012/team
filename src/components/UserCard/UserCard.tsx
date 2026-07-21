@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface UserCardProps {
-  users: User[];
+    users: User[],
+    onDelete:(id:number)=>void
 }
-export default function UserCard({ users }: UserCardProps) {
+export default function UserCard({ users,onDelete }: UserCardProps) {
   return (
     <>
       {" "}
@@ -32,7 +33,7 @@ export default function UserCard({ users }: UserCardProps) {
                       View Profile
                     </Link>
 
-                    <button className={css.deleteBtn}>Delete</button>
+                          <button className={css.deleteBtn} onClick={ ()=>onDelete(x.id)}>Delete</button>
                   </div>
                 </div>
           

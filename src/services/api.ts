@@ -83,4 +83,30 @@ export const fetchUserTodos = async (id: string): Promise<UserTodos> => {
 export const fetchUserPosts = async (id: string): Promise<UserPosts> => {
     const res = await axios.get<UserPosts>(`https://dummyjson.com/users/${id}/posts`);
     return res.data;
-}
+};
+
+export const deleteUser = async (id: number): Promise<User> => {
+    const res = await axios.delete<User>(`https://dummyjson.com/users/${id}`);
+    return res.data
+};
+ 
+export const loginUser = async (
+  username: string,
+  password: string
+) => {
+  const res = await axios.post(
+    "https://dummyjson.com/user/login",
+    {
+      username,
+      password,
+      expiresInMins: 30,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return res.data;
+};
