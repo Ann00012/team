@@ -5,6 +5,7 @@ import { loginUser } from "@/services/api";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useAuthStore } from "@/services/useAuthStore";
 
 const validation = Yup.object().shape({
   username: Yup.string()
@@ -19,11 +20,14 @@ const validation = Yup.object().shape({
 
 export default function Login() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser); 
+
   const mutation = useMutation({
     mutationFn: (values: { username: string; password: string }) =>
       loginUser(values.username, values.password),
     onSuccess: (data) => {
-      localStorage.setItem("token", JSON.stringify(data));
+      localStorage.setItem("token", JSON.stringify(data)); 
+      setUser(data); 
       toast.success("Successfully login!");
       router.push("/");
     },
