@@ -110,3 +110,18 @@ export const loginUser = async (
 
   return res.data;
 };
+
+
+export const addNewUser = async (username:string,lastName:string,firstName:string,img?:string,role?:string) => {
+    const res = await axios.post(`https://dummyjson.com/users/add`,
+        {
+            username,  lastName, firstName, img,role,
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+    );
+    return  res.data;
+ };

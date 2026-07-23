@@ -7,6 +7,7 @@ import { useAuthStore } from "@/services/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+
 export default function Header() {
   const router = useRouter();
   const { user, setUser, logout } = useAuthStore();
@@ -30,7 +31,8 @@ export default function Header() {
     <div className={css.container}>
       <div className={css.leftSection}>
         <Image src="/red.png" alt="logo" className={css.logo} width={64} height={64} />
-        <Link className={css.title} href="/">My Team</Link>
+              <Link className={css.title} href="/">My Team</Link>
+            
       </div>
 
       <div className={css.rightSection}>
