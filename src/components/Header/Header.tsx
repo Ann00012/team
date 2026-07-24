@@ -32,7 +32,7 @@ export default function Header() {
       <div className={css.leftSection}>
         <Image src="/red.png" alt="logo" className={css.logo} width={64} height={64} />
               <Link className={css.title} href="/">My Team</Link>
-            
+              <Link href='/addUser' className={css.addUser }>Add new user</Link>
       </div>
 
       <div className={css.rightSection}>

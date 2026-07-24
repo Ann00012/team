@@ -1,9 +1,18 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+"use client";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addNewUser } from "@/services/api";
 import { toast } from "react-toastify";
 import css from "./UserModal.module.css";
+
+interface FormValues {
+  username: string;
+  lastName: string;
+  firstName: string;
+  img?: string;
+  role?: string;
+}
 
 const validation = Yup.object().shape({
   username: Yup.string()
@@ -60,6 +69,16 @@ export default function UserModal() {
     },
   });
 
+  const handleSubmit = (
+    values: FormValues,
+    { resetForm }: FormikHelpers<FormValues>,
+  ) => {
+    mutation.mutate(values, {
+      onSuccess: () => {
+        resetForm(); 
+      },
+    });
+  };
   return (
     <Formik
       initialValues={{
@@ -69,7 +88,7 @@ export default function UserModal() {
         img: "",
         role: "",
       }}
-      onSubmit={mutation.mutate}
+      onSubmit={handleSubmit}
       validationSchema={validation}
     >
       <Form className={css.form}>

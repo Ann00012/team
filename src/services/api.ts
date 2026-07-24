@@ -124,4 +124,16 @@ export const addNewUser = async (username:string,lastName:string,firstName:strin
         }
     );
     return  res.data;
- };
+};
+ 
+export const updateUser = async (id:string,username?: string, firstName?: string, lastName?: string, role?: string) => { 
+    const res = await axios.patch(`https://dummyjson.com/users/${id}`,
+        {
+            username, firstName, lastName, role
+        },
+        {
+            headers: { 'Content-Type': 'application/json' },
+        }
+    );
+    return res.data
+}
