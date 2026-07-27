@@ -4,16 +4,21 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
-import { fetchSingleUser, fetchUserTodos,fetchUserPosts } from "@/services/api";
+import {
+  fetchSingleUser,
+  fetchUserTodos,
+  fetchUserPosts,
+} from "@/services/api";
 import Loader from "@/app/loader";
 import css from "./UserDetailt.module.css";
+import UpdateUsera from "@/components/UpdateUser/UpdateUser";
 
 export default function UserDetailsClient() {
   const params = useParams<{ id: string }>();
   const id = params.id;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("posts");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, isError, error, isLoading } = useQuery({
     queryKey: ["user", id],
     queryFn: () => fetchSingleUser(id),
@@ -29,11 +34,11 @@ export default function UserDetailsClient() {
     queryKey: ["todos", id],
     queryFn: () => fetchUserTodos(id),
   });
-    
-    const { data: postsData } = useQuery({
-        queryKey: ["posts", id],
-        queryFn:()=>fetchUserPosts(id)
-    });
+
+  const { data: postsData } = useQuery({
+    queryKey: ["posts", id],
+    queryFn: () => fetchUserPosts(id),
+  });
 
   return (
     <div className={css.wrapper}>
@@ -59,12 +64,31 @@ export default function UserDetailsClient() {
             {data.phone}
           </a>
           <p className={css.role}>Role: {data.role}</p>
+          <button className={css.editBtn} onClick={() => setIsModalOpen(true)}>
+            Edit Profile
+          </button>
           <button className={css.backBtn} onClick={() => router.push("/")}>
             Back to Directory
           </button>
         </div>
       )}
 
+      {isModalOpen && (
+        <div className={css.modalOverlay} onClick={() => setIsModalOpen(false)}>
+          <div
+            className={css.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className={css.closeButton}
+              onClick={() => setIsModalOpen(false)}
+            >
+              ✕
+            </button>
+            <UpdateUsera user={data} onClose={() => setIsModalOpen(false)} />
+          </div>
+        </div>
+      )}
       <div className={css.mainContent}>
         <div className={css.tabsContainer}>
           <button
@@ -82,31 +106,31 @@ export default function UserDetailsClient() {
         </div>
 
         <div className={css.contentArea}>
-                  {activeTab === "posts" && (
-                      <>
-                          <h2 className={css.todosTitle}>User Posts</h2>
-            <ul className={css.postList}>
-              {postsData?.posts.map((post) => (
-                <li key={post.id} className={css.postCard}>
-                  <h3 className={css.postTitle}>{post.title}</h3>
-                  <p className={css.postBody}>{post.body}</p>
+          {activeTab === "posts" && (
+            <>
+              <h2 className={css.todosTitle}>User Posts</h2>
+              <ul className={css.postList}>
+                {postsData?.posts.map((post) => (
+                  <li key={post.id} className={css.postCard}>
+                    <h3 className={css.postTitle}>{post.title}</h3>
+                    <p className={css.postBody}>{post.body}</p>
 
-                  <div className={css.postTags}>
-                    {post.tags.map((tag) => (
-                      <span key={tag} className={css.tag}>
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+                    <div className={css.postTags}>
+                      {post.tags.map((tag) => (
+                        <span key={tag} className={css.tag}>
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
 
-                  <div className={css.postFooter}>
-                    <span>👁️ {post.views} views</span>
-                    <span>❤️ {post.reactions?.likes || 0} likes</span>
-                  </div>
-                </li>
-              ))}
-                          </ul>
-                          </>
+                    <div className={css.postFooter}>
+                      <span>👁️ {post.views} views</span>
+                      <span>❤️ {post.reactions?.likes || 0} likes</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
 
           {activeTab === "todos" && (

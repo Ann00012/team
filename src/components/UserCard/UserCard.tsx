@@ -3,6 +3,7 @@ import css from "./UserCard.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
+
 interface UserCardProps {
     users: User[],
     onDelete:(id:number)=>void
