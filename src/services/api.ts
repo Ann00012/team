@@ -52,23 +52,29 @@ const api = axios.create({
 export const fetchUsers = async ({
   page,
   search,
+  sortBy,
+  order,
 }: {
   page: number;
   search: string;
+  sortBy?: string;
+  order?: string;
 }) => {
-  const limit =6;
+  const limit = 6;
   const skip = (page - 1) * limit;
 
-  const endpoint = search
+  let endpoint = search
     ? `/users/search?q=${search}&limit=${limit}&skip=${skip}`
     : `/users?limit=${limit}&skip=${skip}`;
 
+  if (sortBy) {
+    endpoint += `&sortBy=${sortBy}&order=${order || "asc"}`;
+  }
 
   const { data } = await api.get(endpoint);
 
   return data;
 };
-
 
 export const fetchSingleUser = async (id: string): Promise<User> => {
     const res = await axios.get<User>(`https://dummyjson.com/users/${id}`);
@@ -126,7 +132,7 @@ export const addNewUser = async (username:string,lastName:string,firstName:strin
     return  res.data;
 };
  
-export const updateUser = async (id:string,username?: string, firstName?: string, lastName?: string, role?: string) => { 
+export const updateUser = async (id: string, username?: string, firstName?: string, lastName?: string, role?: string) => {
     const res = await axios.patch(`https://dummyjson.com/users/${id}`,
         {
             username, firstName, lastName, role
@@ -136,4 +142,5 @@ export const updateUser = async (id:string,username?: string, firstName?: string
         }
     );
     return res.data
-}
+};
+

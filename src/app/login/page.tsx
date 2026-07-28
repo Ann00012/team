@@ -6,28 +6,29 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/services/useAuthStore";
+import css from "./login.module.css";
 
 const validation = Yup.object().shape({
   username: Yup.string()
     .min(3, "Username must be longer")
-    .max(60, "Username must be shoter")
+    .max(60, "Username must be shorter")
     .required("Username is required"),
   password: Yup.string()
-    .min(8, "Password must be longer than 8 charatres")
-    .max(70, "Password must be shoter")
+    .min(8, "Password must be longer than 8 characters")
+    .max(70, "Password must be shorter")
     .required("Password is required"),
 });
 
 export default function Login() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser); 
+  const setUser = useAuthStore((state) => state.setUser);
 
   const mutation = useMutation({
     mutationFn: (values: { username: string; password: string }) =>
       loginUser(values.username, values.password),
     onSuccess: (data) => {
-      localStorage.setItem("token", JSON.stringify(data)); 
-      setUser(data); 
+      localStorage.setItem("token", JSON.stringify(data));
+      setUser(data);
       toast.success("Successfully login!");
       router.push("/");
     },
@@ -35,45 +36,66 @@ export default function Login() {
       toast.error(`Error ${error}`);
     },
   });
-  return (
-    <Formik
-      initialValues={{
-        username: "",
-        password: "",
-      }}
-      onSubmit={(values) => {
-        mutation.mutate(values);
-      }}
-      validationSchema={validation}
-    >
-      <Form>
-        <div>
-          <Field name="username" placeholder="Username" id="userName" />
-          <ErrorMessage
-            name="username"
-            component="div"
-            style={{ color: "red" }}
-          />
-        </div>
 
-        <div>
-          <Field
-            name="password"
-            placeholder="Password"
-            id="userPassword"
-            type="password"
-          />
-          <ErrorMessage
-            name="password"
-            component="div"
-            style={{ color: "red" }}
-          />
-        </div>
-        
-        <button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Loading..." : "Sign In"}
-        </button>
-      </Form>
-    </Formik>
-  )
-};
+  return (
+    <div className={css.container}>
+      <Formik
+        initialValues={{
+          username: "",
+          password: "",
+        }}
+        onSubmit={(values) => {
+          mutation.mutate(values);
+        }}
+        validationSchema={validation}
+      >
+        <Form className={css.form}>
+          <h2 className={css.title}>Sign In</h2>
+
+          <div className={css.fieldGroup}>
+            <label htmlFor="userName" className={css.label}>
+              Username
+            </label>
+            <Field
+              name="username"
+              placeholder="Enter your username"
+              id="userName"
+              className={css.input}
+            />
+            <ErrorMessage
+              name="username"
+              component="div"
+              className={css.error}
+            />
+          </div>
+
+          <div className={css.fieldGroup}>
+            <label htmlFor="userPassword" className={css.label}>
+              Password
+            </label>
+            <Field
+              name="password"
+              placeholder="Enter your password"
+              id="userPassword"
+              type="password"
+              className={css.input}
+            />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className={css.error}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={mutation.isPending}
+            className={css.submitBtn}
+          >
+            {mutation.isPending ? "Loading..." : "Sign In"}
+          </button>
+        </Form>
+      </Formik>
+    </div>
+  );
+}

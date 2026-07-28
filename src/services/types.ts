@@ -8,5 +8,11 @@ export type User = {
     age: number,
     role: string,
     phone: string,
-    isDeleted:boolean
+    isDeleted: boolean,
+    company:Company
 };
+
+type Company = {
+    title: string,
+    
+}

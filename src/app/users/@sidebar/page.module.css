@@ -1,0 +1,40 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.btnGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sortBtn {
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sortBtn:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.sortBtn.active {
+  background-color: #2563eb; 
+  color: #fff;
+  border-color: #1d4ed8;
+}

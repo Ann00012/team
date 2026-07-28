@@ -62,7 +62,8 @@ export default function UserDetailsClient() {
           </a>
           <a className={css.phone} href={`tel:${data.phone}`}>
             {data.phone}
-          </a>
+                  </a>
+                  <p className={css.email}>Age:{ data.age}</p>
           <p className={css.role}>Role: {data.role}</p>
           <button className={css.editBtn} onClick={() => setIsModalOpen(true)}>
             Edit Profile

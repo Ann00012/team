@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  min-height: calc(100vh - 97px);
+}
+
+.sidebarWrapper {
+  width: 260px;
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+}
+
+.contentWrapper {
+  flex: 1;
+  padding: 24px;
+  background-color: #ffffff;
+}
