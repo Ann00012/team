@@ -10,8 +10,6 @@ interface FormValues {
   username: string;
   lastName: string;
   firstName: string;
-  img?: string;
-  role?: string;
 }
 
 const validation = Yup.object().shape({
@@ -29,12 +27,6 @@ const validation = Yup.object().shape({
     .min(3, "First name must be longer")
     .max(70, "First name must be shorter")
     .required("First name is required"),
-
-  img: Yup.string(),
-
-  role: Yup.string()
-    .min(3, "Role must be longer")
-    .max(70, "Role must be shorter"),
 });
 
 export default function UserModal() {
@@ -45,15 +37,11 @@ export default function UserModal() {
       username: string;
       lastName: string;
       firstName: string;
-      img?: string;
-      role?: string;
     }) =>
       addNewUser(
         values.username,
         values.lastName,
         values.firstName,
-        values.img,
-        values.role,
       ),
 
     onSuccess: () => {
@@ -85,8 +73,6 @@ export default function UserModal() {
         username: "",
         firstName: "",
         lastName: "",
-        img: "",
-        role: "",
       }}
       onSubmit={handleSubmit}
       validationSchema={validation}

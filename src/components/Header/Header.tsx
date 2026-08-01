@@ -39,7 +39,7 @@ export default function Header() {
         {user ? (
           <div className={css.userInfo}>
             <Image
-              src={user.image || "/globe.svg"} 
+              src={user?.image || "/globe.svg"} 
               alt="avatar"
               width={40}
               height={40}
