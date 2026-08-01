@@ -1,0 +1,93 @@
+"use client";
+import Image from "next/image";
+import css from "./page.module.css";
+import { fetchUsers, deleteUser } from "@/services/api";
+import { useQuery } from "@tanstack/react-query";
+import UserCard from "@/components/UserCard/UserCard";
+import Loader from "../loader";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import { useState, useEffect } from "react";
+import { useDebounce } from "use-debounce";
+import Paginations from "@/components/Pagination/Pagination";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
+
+export default function Home() {
+  const searchParams = useSearchParams();
+  const sortBy = searchParams.get("sortBy") || "";
+  const order = searchParams.get("order") || "asc";
+  const [currentPage, setCurrentPage] = useState(1);
+  const [text, setText] = useState("");
+  const [debaunced] = useDebounce(text, 300);
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      toast.success("User deleted successfully. This deletion is simulated.");
+
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: () => {
+      toast.error("Failed to delete user");
+    },
+  });
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
+  };
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["users", currentPage, debaunced, sortBy, order],
+    queryFn: () =>
+      fetchUsers({
+        page: currentPage,
+        search: debaunced,
+        sortBy,
+        order,
+      }),
+  });
+
+  useEffect(() => {
+    const savedText = localStorage.getItem("search");
+
+    if (savedText) {
+      setText(savedText);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("search", text);
+  }, [text]);
+
+  const handleChange = (newText: string) => {
+    setText(newText);
+    setCurrentPage(1);
+  };
+
+  const totalPages = data ? Math.ceil(data.total / 10) : 0;
+
+  return (
+    <main className={css.wrapper}>
+      <div className={css.box}>
+        <h2>User Directory</h2>
+        <SearchBar text={text} handleChange={handleChange} />
+      </div>
+      {isLoading && (
+        <div className={css.loaderWrapper}>
+          <Loader />
+        </div>
+      )}
+      {isError && <p>Error {error?.message}</p>}
+      {data && <UserCard users={data.users} onDelete={handleDelete} />}
+      {data?.users?.length === 0 && (
+        <p className={css.noMatches}>There are no matches.</p>
+      )}
+      {data && data.total > 0 && totalPages > 1 && (
+        <Paginations
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+      )}
+    </main>
+  );
+}
