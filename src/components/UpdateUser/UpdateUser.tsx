@@ -5,13 +5,7 @@ import * as Yup from "yup";
 import { Formik, Form, ErrorMessage, FormikHelpers, Field } from "formik";
 import css from "./UpdateUser.module.css";
 
-interface UpdateUserProps {
-  id: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  role?: string;
-}
+
 
 interface FormValues {
   username: string;
@@ -20,8 +14,8 @@ interface FormValues {
   role: string;
 }
 
-interface UpdateUserProps {
-  user: {
+type UpdateUserProps ={
+  user?: {
     id: string;
     username: string;
     firstName: string;
@@ -78,10 +72,10 @@ export default function UpdateUsera({ user, onClose }: UpdateUserProps) {
   return (
     <Formik
       initialValues={{
-        username: user.username || "",
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        role: user.role || "",
+        username: user?.username || "",
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        role: user?.role || "",
       }}
       validationSchema={validation}
       onSubmit={handleSubmit}

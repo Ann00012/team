@@ -62,8 +62,8 @@ export default function UserDetailsClient() {
           </a>
           <a className={css.phone} href={`tel:${data.phone}`}>
             {data.phone}
-                  </a>
-                  <p className={css.email}>Age:{ data.age}</p>
+          </a>
+          <p className={css.email}>Age:{data.age}</p>
           <p className={css.role}>Role: {data.role}</p>
           <button className={css.editBtn} onClick={() => setIsModalOpen(true)}>
             Edit Profile
@@ -86,7 +86,9 @@ export default function UserDetailsClient() {
             >
               ✕
             </button>
-            <UpdateUsera user={data} onClose={() => setIsModalOpen(false)} />
+            {data && (
+              <UpdateUsera user={data} onClose={() => setIsModalOpen(false)} />
+            )}
           </div>
         </div>
       )}
