@@ -4,8 +4,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Formik, Form, ErrorMessage, FormikHelpers, Field } from "formik";
 import css from "./UpdateUser.module.css";
-
-
+import type { User } from "@/services/types";
 
 interface FormValues {
   username: string;
@@ -14,16 +13,10 @@ interface FormValues {
   role: string;
 }
 
-type UpdateUserProps ={
-  user?: {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-  };
-  onClose?: () => void;
-}
+type UpdateUserProps = {
+  user: User;
+  onClose: () => void;
+};
 
 const validation = Yup.object().shape({
   username: Yup.string()

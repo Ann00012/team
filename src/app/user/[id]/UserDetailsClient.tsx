@@ -74,21 +74,12 @@ export default function UserDetailsClient() {
         </div>
       )}
 
-      {isModalOpen && (
-        <div className={css.modalOverlay} onClick={() => setIsModalOpen(false)}>
-          <div
-            className={css.modalContent}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className={css.closeButton}
-              onClick={() => setIsModalOpen(false)}
-            >
-              ✕
-            </button>
-            {data && (
-              <UpdateUsera user={data} onClose={() => setIsModalOpen(false)} />
-            )}
+      {isModalOpen && data && (
+        <div className={css.modalOverlay}>
+          <div className={css.modalContent}>
+            <button onClick={() => setIsModalOpen(false)}>✕</button>
+
+            <UpdateUsera user={data} onClose={() => setIsModalOpen(false)} />
           </div>
         </div>
       )}
